@@ -43,8 +43,34 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(MainActivity.this, R.layout.row, movieList);
         movieLv.setAdapter(adapter);
 
+//        getIntentAddMovie();
+//        getIntentRemove();
 
-        getIntentAddMovie();
+        Intent getIntent = getIntent();
+
+        if (getIntent().hasExtra("Remove")) {
+            remove = getIntent.getStringExtra("Remove");
+
+            for (Movie i : movieList) {
+                if (i.getTitle().equalsIgnoreCase(remove)) {
+                    movieList.remove(i);
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+        else {
+            title = getIntent.getStringExtra("Title");
+            year = getIntent.getStringExtra("Year");
+            genre = getIntent.getStringExtra("Genre");
+            rated = getIntent.getStringExtra("Rated");
+            theatre = getIntent.getStringExtra("Theatre");
+            desc = getIntent.getStringExtra("Desc");
+            date = getIntent.getStringExtra("Date");
+
+            movieList.add(new Movie(title, year, rated, genre, date, theatre, desc, 0));
+            adapter.notifyDataSetChanged();
+        }
+
 
         movieLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getIntentRemove();
+
     }
 
     @Override
@@ -109,15 +135,16 @@ public class MainActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
 
-        remove = getIntent.getStringExtra("Remove");
+        if (getIntent() != null) {
+            remove = getIntent.getStringExtra("Remove");
 
-        for (Movie i : movieList) {
-            if (i.getTitle().equalsIgnoreCase(remove)) {
-                movieList.remove(i);
+            for (Movie i : movieList) {
+                if (i.getTitle().equalsIgnoreCase(remove)) {
+                    movieList.remove(i);
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-
-
     }
 
     private Calendar toCalendar(String date) {
