@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Movie> movieList;
     CustomAdapter adapter;
 
-    String title, year, genre, rated, theatre, desc, date;
+    String title, year, genre, rated, theatre, desc, date, remove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         .putExtra("Rating", movieList.get(position).getRating()));
             }
         });
+
+        getIntentRemove();
     }
 
     @Override
@@ -101,6 +103,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
         }
+    }
+
+    private void getIntentRemove() {
+
+        Intent getIntent = getIntent();
+
+        remove = getIntent.getStringExtra("Remove");
+
+        for (Movie i : movieList) {
+            if (i.getTitle().equalsIgnoreCase(remove)) {
+                movieList.remove(i);
+            }
+        }
+
+
     }
 
     private Calendar toCalendar(String date) {
